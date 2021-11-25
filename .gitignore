@@ -13,7 +13,7 @@ run.sh
 debug/
 stitch/
 build/
-venv
+venv/
 .env
 
 # custom stuff
