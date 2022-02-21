@@ -165,7 +165,8 @@ class ReportStream(BaseStream):
             for profile in self.config.get('profiles'):
                 LOGGER.info('Syncing data for profile with country code {}'.format(profile['country_code']))
 
-                profile_id = profile['profile_id']
+                self.set_profile(profile['profile_id'], profile['country_code'])
+
                 sync_date_copy = sync_date
                 while sync_date_copy <= yesterday:
                     LOGGER.info("Syncing {} for date {}".format(table, sync_date_copy))

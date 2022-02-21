@@ -35,18 +35,18 @@ AVAILABLE_STREAMS = [
     ProductAdsStream,
 
     # SD Reports
-    SponsoredDisplayReportProductAdsStream,
-    SponsoredDisplayReportCampaignsStream,
-    SponsoredDisplayReportAdGroupsStream,
+    # SponsoredDisplayReportProductAdsStream,
+    # SponsoredDisplayReportCampaignsStream,
+    # SponsoredDisplayReportAdGroupsStream,
 
     # SP Reports
     SponsoredProductsReportProductAdsStream,
-    SponsoredProductsReportCampaignsStream,
-    SponsoredProductsReportAdGroupsStream,
-    SponsoredProductsReportKeywordsStream,
+    # SponsoredProductsReportCampaignsStream,
+    # SponsoredProductsReportAdGroupsStream,
+    # SponsoredProductsReportKeywordsStream,
 
     # SB Reports
-    # SponsoredBrandsReportKeywordsStream,
+    SponsoredBrandsReportKeywordsStream,
     # SponsoredBrandsReportCampaignsStream,
     # SponsoredBrandsReportAdGroupsStream,
 ]

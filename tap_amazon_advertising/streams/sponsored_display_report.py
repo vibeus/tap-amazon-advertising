@@ -6,7 +6,7 @@ import json
 LOGGER = singer.get_logger()  # noqa
 
 class BaseSponsoredDisplayReportStream(ReportStream):
-    API_METHOD = 'GET'
+    API_METHOD = 'POST'
 
     @property
     def recordType(self):
@@ -19,6 +19,7 @@ class BaseSponsoredDisplayReportStream(ReportStream):
     def get_body(self, day):
         return {
             "reportDate": day.strftime('%Y%m%d'),
+            "tactic": 'T00001',
             "metrics": ",".join([
                 "campaignName",
                 "campaignId",
@@ -72,39 +73,76 @@ class SponsoredDisplayReportProductAdsStream(BaseSponsoredDisplayReportStream):
         return "productAds"
 
     def get_body(self, day):
-        return {
+        LOGGER.info({
             "reportDate": day.strftime('%Y%m%d'),
+            "tactic": 'T00001',
             "metrics": ",".join([
                 "campaignName",
-                "campaignId",
-                "adGroupName",
-                "adGroupId",
+                # "campaignId",
+                # "adGroupName",
+                # "adGroupId",
                 "impressions",
                 "clicks",
                 "cost",
-                "currency",
-                "asin",
-                "sku", # Not supported for vendors?
-                "attributedConversions1d",
-                "attributedConversions7d",
-                "attributedConversions14d",
-                "attributedConversions30d",
-                "attributedConversions1dSameSKU",
-                "attributedConversions7dSameSKU",
-                "attributedConversions14dSameSKU",
-                "attributedConversions30dSameSKU",
-                "attributedUnitsOrdered1d",
-                "attributedUnitsOrdered7d",
-                "attributedUnitsOrdered14d",
-                "attributedUnitsOrdered30d",
-                "attributedSales1d",
-                "attributedSales7d",
-                "attributedSales14d",
-                "attributedSales30d",
-                "attributedSales1dSameSKU",
-                "attributedSales7dSameSKU",
-                "attributedSales14dSameSKU",
-                "attributedSales30dSameSKU",
+                # "currency",
+                # "asin",
+                # "sku", # Not supported for vendors?
+                # "attributedConversions1d",
+                # "attributedConversions7d",
+                # "attributedConversions14d",
+                # "attributedConversions30d",
+                # "attributedConversions1dSameSKU",
+                # "attributedConversions7dSameSKU",
+                # "attributedConversions14dSameSKU",
+                # "attributedConversions30dSameSKU",
+                # "attributedUnitsOrdered1d",
+                # "attributedUnitsOrdered7d",
+                # "attributedUnitsOrdered14d",
+                # "attributedUnitsOrdered30d",
+                # "attributedSales1d",
+                # "attributedSales7d",
+                # "attributedSales14d",
+                # "attributedSales30d",
+                # "attributedSales1dSameSKU",
+                # "attributedSales7dSameSKU",
+                # "attributedSales14dSameSKU",
+                # "attributedSales30dSameSKU",
+            ])
+        })
+        return {
+            "reportDate": day.strftime('%Y%m%d'),
+            "tactic": 'T00001',
+            "metrics": ",".join([
+                "campaignName",
+                # "campaignId",
+                # "adGroupName",
+                # "adGroupId",
+                "impressions",
+                "clicks",
+                "cost",
+                # "currency",
+                # "asin",
+                # "sku", # Not supported for vendors?
+                # "attributedConversions1d",
+                # "attributedConversions7d",
+                # "attributedConversions14d",
+                # "attributedConversions30d",
+                # "attributedConversions1dSameSKU",
+                # "attributedConversions7dSameSKU",
+                # "attributedConversions14dSameSKU",
+                # "attributedConversions30dSameSKU",
+                # "attributedUnitsOrdered1d",
+                # "attributedUnitsOrdered7d",
+                # "attributedUnitsOrdered14d",
+                # "attributedUnitsOrdered30d",
+                # "attributedSales1d",
+                # "attributedSales7d",
+                # "attributedSales14d",
+                # "attributedSales30d",
+                # "attributedSales1dSameSKU",
+                # "attributedSales7dSameSKU",
+                # "attributedSales14dSameSKU",
+                # "attributedSales30dSameSKU",
             ])
         }
 
@@ -120,8 +158,8 @@ class SponsoredDisplayReportCampaignsStream(BaseSponsoredDisplayReportStream):
     def get_body(self, day):
         return {
             "reportDate": day.strftime('%Y%m%d'),
+            "tactic": 'T00001',
             "metrics": ",".join([
-                "bidPlus",
                 "campaignName",
                 "campaignId",
                 "campaignStatus",
@@ -166,6 +204,7 @@ class SponsoredDisplayReportAdGroupsStream(BaseSponsoredDisplayReportStream):
     def get_body(self, day):
         return {
             "reportDate": day.strftime('%Y%m%d'),
+            "tactic": 'T00001',
             "metrics": ",".join([
                 "campaignName",
                 "campaignId",
