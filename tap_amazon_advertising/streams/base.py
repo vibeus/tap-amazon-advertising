@@ -15,6 +15,8 @@ from tap_framework.streams import BaseStream as base
 LOGGER = singer.get_logger()
 
 BASE_URL = 'https://advertising-api.amazon.com'
+EU_URL = 'https://advertising-api-eu.amazon.com'
+FE_URL = 'https://advertising-api-fe.amazon.com'
 
 class BaseStream(base):
     KEY_PROPERTIES = ['id']
@@ -159,7 +161,7 @@ class ReportStream(BaseStream):
             sync_date = get_config_start_date(self.config)
 
         # Add a lookback to refresh attribution metrics for more recent orders
-        sync_date -= datetime.timedelta(days=self.config.get('lookback', 30))
+        sync_date -= datetime.timedelta(days=self.config.get('lookback', 7))
 
         with singer.metrics.record_counter(endpoint=table) as counter:
             for profile in self.config.get('profiles'):

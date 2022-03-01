@@ -11,16 +11,27 @@ from tap_amazon_advertising.streams.product_ads import ProductAdsStream
 
 from tap_amazon_advertising.streams.sponsored_display_report import SponsoredDisplayReportProductAdsStream, \
         SponsoredDisplayReportCampaignsStream, \
-        SponsoredDisplayReportAdGroupsStream
+        SponsoredDisplayReportAdGroupsStream, \
+        SponsoredDisplayReportTargetingStream, \
+        SponsoredDisplayReportAsinsStream
 
 from tap_amazon_advertising.streams.sponsored_products_report import SponsoredProductsReportProductAdsStream, \
         SponsoredProductsReportCampaignsStream, \
         SponsoredProductsReportAdGroupsStream, \
-        SponsoredProductsReportKeywordsStream
+        SponsoredProductsReportKeywordsStream, \
+        SponsoredProductsReportTargetingStream, \
+        SponsoredProductsReportAsinsTargetStream, \
+        SponsoredProductsReportAsinsKeywordStream, \
+        SponsoredProductsReportAsinsStream
 
 from tap_amazon_advertising.streams.sponsored_brands_report import SponsoredBrandsReportKeywordsStream, \
         SponsoredBrandsReportCampaignsStream, \
-        SponsoredBrandsReportAdGroupsStream
+        SponsoredBrandsReportAdGroupsStream, \
+        SponsoredBrandsReportSearchTermStream
+
+from tap_amazon_advertising.streams.sponsored_brands_video_report import SponsoredBrandsVideoReportKeywordsStream, \
+        SponsoredBrandsVideoReportSearchTermStream, \
+        SponsoredBrandsVideoReportCampaignsStream
 
 
 AVAILABLE_STREAMS = [
@@ -35,20 +46,32 @@ AVAILABLE_STREAMS = [
     ProductAdsStream,
 
     # SD Reports
-    # SponsoredDisplayReportProductAdsStream,
-    # SponsoredDisplayReportCampaignsStream,
-    # SponsoredDisplayReportAdGroupsStream,
+    SponsoredDisplayReportProductAdsStream,
+    SponsoredDisplayReportCampaignsStream,
+    SponsoredDisplayReportAdGroupsStream,
+    SponsoredDisplayReportTargetingStream,
+    SponsoredDisplayReportAsinsStream,
 
     # SP Reports
     SponsoredProductsReportProductAdsStream,
-    # SponsoredProductsReportCampaignsStream,
-    # SponsoredProductsReportAdGroupsStream,
-    # SponsoredProductsReportKeywordsStream,
+    SponsoredProductsReportCampaignsStream,
+    SponsoredProductsReportAdGroupsStream,
+    SponsoredProductsReportKeywordsStream,
+    SponsoredProductsReportTargetingStream,
+    SponsoredProductsReportAsinsTargetStream,
+    SponsoredProductsReportAsinsKeywordStream,
+    SponsoredProductsReportAsinsStream,
 
     # SB Reports
     SponsoredBrandsReportKeywordsStream,
-    # SponsoredBrandsReportCampaignsStream,
-    # SponsoredBrandsReportAdGroupsStream,
+    SponsoredBrandsReportCampaignsStream,
+    SponsoredBrandsReportAdGroupsStream,
+    SponsoredBrandsReportSearchTermStream,
+
+    # SB Video Reports
+    SponsoredBrandsVideoReportKeywordsStream,
+    SponsoredBrandsVideoReportSearchTermStream,
+    SponsoredBrandsVideoReportCampaignsStream
 ]
 
 __all__ = [
@@ -64,13 +87,24 @@ __all__ = [
     'SponsoredDisplayReportProductAdsStream',
     'SponsoredDisplayReportCampaignsStream',
     'SponsoredDisplayReportAdGroupsStream',
+    'SponsoredDisplayReportTargetingStream',
+    'SponsoredDisplayReportAsinsStream', 
 
     'SponsoredProductsReportProductAdsStream',
     'SponsoredProductsReportCampaignsStream',
     'SponsoredProductsReportAdGroupsStream',
     'SponsoredProductsReportKeywordsStream',
+    'SponsoredProductsReportTargetingStream',
+    'SponsoredProductsReportAsinsTargetStream',
+    'SponsoredProductsReportAsinsKeywordStream',
+    'SponsoredProductsReportAsinsStream',
 
     'SponsoredBrandsReportKeywordsStream',
     'SponsoredBrandsReportCampaignsStream',
     'SponsoredBrandsReportAdGroupsStream',
+    'SponsoredBrandsReportSearchTermStream',
+
+    'SponsoredBrandsVideoReportKeywordsStream',
+    'SponsoredBrandsVideoReportSearchTermStream',
+    'SponsoredBrandsVideoReportCampaignsStream'
 ]

@@ -37,19 +37,13 @@
         "portfolioName": {
             "type": ["null", "string"]
         },
-        "asin": {
-            "type": ["null", "string"]
-        },
-        "sku": {
-            "type": ["null", "string"]
-        },
-        "currency": {
-            "type": ["null", "string"]
-        },
         "adGroupName": {
             "type": ["null", "string"]
         },
         "campaignName": {
+            "type": ["null", "string"]
+        },
+        "placement": {
             "type": ["null", "string"]
         },
         "cost": {

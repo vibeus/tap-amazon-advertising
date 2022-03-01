@@ -13,28 +13,19 @@
             "type": "string",
             "format": "date-time"
         },
-        "keywordId": {
-            "type": ["null", "string"]
-        },
-        "keywordText": {
-            "type": ["null", "string"]
-        },
-        "matchType": {
-            "type": ["null", "string"]
-        },
         "adGroupId": {
             "type": ["null", "string"]
         },
         "campaignId": {
             "type": ["null", "string"]
         },
-        "asin": {
+        "campaignBudget": {
             "type": ["null", "string"]
         },
-        "sku": {
+        "campaignBudgetType": {
             "type": ["null", "string"]
         },
-        "currency": {
+        "campaignStatus": {
             "type": ["null", "string"]
         },
         "adGroupName": {
@@ -51,6 +42,18 @@
         },
         "clicks": {
             "type": ["null", "number"]
+        },
+        "targetId": {
+            "type": ["null", "number"]
+        }, 
+        "targetingExpression": {
+            "type": ["null", "string"]
+        },
+        "targetingText": {
+            "type": ["null", "string"]
+        },
+        "targetingType": {
+            "type": ["null", "string"]
         },
         "attributedSales7d": {
             "type": ["null", "number"]
@@ -111,9 +114,6 @@
         },
         "attributedUnitsOrdered14d": {
             "type": ["null", "number"]
-        },
-        "query": {
-            "type": ["null", "string"]
         }
     }
 }

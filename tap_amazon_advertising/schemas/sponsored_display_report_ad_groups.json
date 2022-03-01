@@ -46,6 +46,9 @@
         "clicks": {
             "type": ["null", "number"]
         },
+        "bidOptimization": {
+            "type": ["null", "string"]
+        },
         "attributedSales7d": {
             "type": ["null", "number"]
         },

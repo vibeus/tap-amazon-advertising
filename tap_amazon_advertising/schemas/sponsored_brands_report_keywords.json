@@ -9,10 +9,6 @@
             "description": "The country code of the profile",
             "type": "string"
         },
-        "countryCode": {
-            "description": "The country code of the profile",
-            "type": "string"
-        },
         "day": {
             "type": "string",
             "format": "date-time"
@@ -36,6 +32,9 @@
             "type": ["null", "string"]
         },
         "matchType": {
+            "type": ["null", "string"]
+        },
+        "placement": {
             "type": ["null", "string"]
         },
         "impressions": {

@@ -50,7 +50,7 @@
             "description": "The computed status, accounting for out of budget, policy violations, etc. See developer notes for more information.",
             "type": "string",
             "oneOf": [
-                "TARGETING_CLAUSE_STATUS_LIVE"
+                "ING_CLAUSE_STATUS_LIVE"
             ]
         }
     }
