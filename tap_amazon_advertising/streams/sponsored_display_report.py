@@ -348,6 +348,7 @@ class SponsoredDisplayReportTargetingStream(BaseSponsoredDisplayReportStream):
             ])
         }
 
+## Purchased product report
 class SponsoredDisplayReportAsinsStream(BaseSponsoredDisplayReportStream):
     TABLE = 'sponsored_display_report_asins'
     KEY_PROPERTIES = ['campaignId', 'day', 'profileId']

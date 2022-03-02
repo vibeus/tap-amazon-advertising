@@ -444,7 +444,7 @@ class SponsoredProductsReportAsinsStream(BaseSponsoredProductsReportStream):
         LOGGER.info("Polling")
         report_url = '{}/v2/reports/{}'.format(BASE_URL, report_id)
 
-        num_polls = 7
+        num_polls = 10 # extended from 7 to 10， in case the network is slow
         for i in range(num_polls):
             poll = self.client.make_request(report_url, 'GET')
             status = poll['status']
@@ -470,7 +470,7 @@ class SponsoredProductsReportAsinsStream(BaseSponsoredProductsReportStream):
             sync_date = get_config_start_date(self.config)
 
         # Add a lookback to refresh attribution metrics for more recent orders
-        sync_date -= datetime.timedelta(days=self.config.get('lookback', 7))
+        sync_date -= datetime.timedelta(days=self.config.get('lookback', 30))
 
         with singer.metrics.record_counter(endpoint=table) as counter:
             for profile in self.config.get('profiles'):
