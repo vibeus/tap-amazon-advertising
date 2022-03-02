@@ -20,8 +20,6 @@ from tap_amazon_advertising.streams.sponsored_products_report import SponsoredPr
         SponsoredProductsReportAdGroupsStream, \
         SponsoredProductsReportKeywordsStream, \
         SponsoredProductsReportTargetingStream, \
-        SponsoredProductsReportAsinsTargetStream, \
-        SponsoredProductsReportAsinsKeywordStream, \
         SponsoredProductsReportAsinsStream
 
 from tap_amazon_advertising.streams.sponsored_brands_report import SponsoredBrandsReportKeywordsStream, \
@@ -58,8 +56,6 @@ AVAILABLE_STREAMS = [
     SponsoredProductsReportAdGroupsStream,
     SponsoredProductsReportKeywordsStream,
     SponsoredProductsReportTargetingStream,
-    SponsoredProductsReportAsinsTargetStream,
-    SponsoredProductsReportAsinsKeywordStream,
     SponsoredProductsReportAsinsStream,
 
     # SB Reports
@@ -95,8 +91,6 @@ __all__ = [
     'SponsoredProductsReportAdGroupsStream',
     'SponsoredProductsReportKeywordsStream',
     'SponsoredProductsReportTargetingStream',
-    'SponsoredProductsReportAsinsTargetStream',
-    'SponsoredProductsReportAsinsKeywordStream',
     'SponsoredProductsReportAsinsStream',
 
     'SponsoredBrandsReportKeywordsStream',
