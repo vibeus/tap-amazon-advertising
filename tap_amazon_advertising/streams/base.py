@@ -14,9 +14,13 @@ from tap_framework.streams import BaseStream as base
 
 LOGGER = singer.get_logger()
 
-BASE_URL = 'https://advertising-api.amazon.com'
-EU_URL = 'https://advertising-api-eu.amazon.com'
-FE_URL = 'https://advertising-api-fe.amazon.com'
+BASE_URL = {
+    'NA': 'https://advertising-api.amazon.com',
+    'EU': 'https://advertising-api-eu.amazon.com',
+    'FE': 'https://advertising-api-fe.amazon.com'
+}
+# BASE_URL[self.config['region']]
+# BASE_URL = 'https://advertising-api-fe.amazon.com'
 
 class BaseStream(base):
     KEY_PROPERTIES = ['id']
@@ -35,7 +39,7 @@ class BaseStream(base):
         return {}
 
     def get_url(self, path):
-        return '{}{}'.format(BASE_URL, path)
+        return '{}{}'.format(BASE_URL[self.config['region']], path)
 
     def transform_record(self, record, inject_profile=True):
         if inject_profile:
@@ -133,7 +137,7 @@ class ReportStream(BaseStream):
         # takes _significantly_ longer to return a SUCCESS status
         time.sleep(10)
         LOGGER.info("Polling")
-        report_url = '{}/v2/reports/{}'.format(BASE_URL, report_id)
+        report_url = '{}/v2/reports/{}'.format(BASE_URL[self.config['region']], report_id)
 
         num_polls = 7
         for i in range(num_polls):
@@ -161,7 +165,7 @@ class ReportStream(BaseStream):
             sync_date = get_config_start_date(self.config)
 
         # Add a lookback to refresh attribution metrics for more recent orders
-        sync_date -= datetime.timedelta(days=self.config.get('lookback', 30))
+        sync_date -= datetime.timedelta(days=self.config.get('lookback', 7))
 
         with singer.metrics.record_counter(endpoint=table) as counter:
             for profile in self.config.get('profiles'):

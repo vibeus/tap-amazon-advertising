@@ -389,7 +389,7 @@ class SponsoredProductsReportAsinsStream(BaseSponsoredProductsReportStream):
             sync_date = get_config_start_date(self.config)
 
         # Add a lookback to refresh attribution metrics for more recent orders
-        sync_date -= datetime.timedelta(days=self.config.get('lookback', 30))
+        sync_date -= datetime.timedelta(days=self.config.get('lookback', 7))
 
         with singer.metrics.record_counter(endpoint=table) as counter:
             for profile in self.config.get('profiles'):
