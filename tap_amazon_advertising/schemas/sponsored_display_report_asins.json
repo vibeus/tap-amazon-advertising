@@ -13,67 +13,53 @@
             "type": "string",
             "format": "date-time"
         },
-        "attributedSalesNewToBrand14d": {
-            "type": ["null", "string"]
-        },
         "campaignId": {
             "type": ["null", "string"]
-        },
-        "placement": {
-            "type": ["null", "string"]
-        },
-        "impressions": {
-            "type": ["null", "number"]
-        },
-        "clicks": {
-            "type": ["null", "number"]
-        },
-        "cost": {
-            "type": ["null", "number"]
         },
         "campaignName": {
             "type": ["null", "string"]
         },
-        "campaignBudget": {
+        "adGroupId": {
             "type": ["null", "string"]
         },
-        "campaignBudgetType": {
+        "adGroupName": {
             "type": ["null", "string"]
         },
-        "campaignStatus": {
+        "currency": {
             "type": ["null", "string"]
         },
-        "attributedSales14dSameSKU": {
+        "asin": {
+            "type": ["null", "string"]
+        },
+        "otherAsin": {
+            "type": ["null", "string"]
+        },
+        "sku": {
+            "type": ["null", "string"]
+        },
+        "attributedSales14dOtherSKU": {
             "type": ["null", "number"]
         },
-        "attributedOrdersNewToBrandPercentage14d": {
+        "attributedSales1dOtherSKU": {
             "type": ["null", "number"]
         },
-        "attributedOrderRateNewToBrand14d": {
+        "attributedSales30dOtherSKU": {
             "type": ["null", "number"]
         },
-        "attributedConversions14d": {
+        "attributedSales7dOtherSKU": {
             "type": ["null", "number"]
         },
-        "attributedConversions14dSameSKU": {
+        "attributedUnitsOrdered14dOtherSKU": {
             "type": ["null", "number"]
         },
-        "attributedOrdersNewToBrand14d": {
+        "attributedUnitsOrdered1dOtherSKU": {
             "type": ["null", "number"]
         },
-        "attributedUnitsOrderedNewToBrand14d": {
+        "attributedUnitsOrdered30dOtherSKU": {
             "type": ["null", "number"]
         },
-        "attributedSales14d": {
-            "type": ["null", "number"]
-        },
-        "attributedSalesNewToBrandPercentage14d": {
-            "type": ["null", "number"]
-        },
-        "attributedUnitsOrderedNewToBrandPercentage14d": {
+        "attributedUnitsOrdered7dOtherSKU": {
             "type": ["null", "number"]
         }
     }
 }
-
-

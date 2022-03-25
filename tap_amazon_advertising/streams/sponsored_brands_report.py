@@ -29,6 +29,7 @@ class BaseSponsoredBrandsReportStream(ReportStream):
             for record in result
         ]
 
+# Keyword report / Keyword placement report
 class SponsoredBrandsReportKeywordsStream(BaseSponsoredBrandsReportStream):
     TABLE = 'sponsored_brands_report_keywords'
     KEY_PROPERTIES = ['keywordId', 'day', 'profileId']
@@ -60,7 +61,40 @@ class SponsoredBrandsReportKeywordsStream(BaseSponsoredBrandsReportStream):
                 "attributedSalesNewToBrandPercentage14d",
                 "attributedUnitsOrderedNewToBrand14d",
                 "attributedUnitsOrderedNewToBrandPercentage14d",
-            ])
+            ]),
+            "segment": "placement"
+        }
+
+
+    @property
+    def recordType(self):
+        return "keywords"
+
+# Search term report
+class SponsoredBrandsReportSearchTermStream(BaseSponsoredBrandsReportStream):
+    TABLE = 'sponsored_brands_report_search_term'
+    KEY_PROPERTIES = ['keywordId', 'day', 'profileId']
+
+    def get_body(self, day):
+        return {
+            "reportDate": day.strftime('%Y%m%d'),
+            "metrics": ",".join([
+                "campaignName",
+                "campaignId",
+                "campaignStatus",
+                "campaignBudget",
+                "campaignBudgetType",
+                "adGroupName",
+                "adGroupId",
+                "keywordText",
+                "matchType",
+                "impressions",
+                "clicks",
+                "cost",
+                "attributedSales14d",
+                "attributedConversions14d",
+            ]),
+            "segment": "query"
         }
 
 
@@ -106,7 +140,7 @@ class SponsoredBrandsReportAdGroupsStream(BaseSponsoredBrandsReportStream):
             ])
         }
 
-
+# Campaign report / Campaign placement report
 class SponsoredBrandsReportCampaignsStream(BaseSponsoredBrandsReportStream):
     TABLE = 'sponsored_brands_report_campaigns'
     KEY_PROPERTIES = ['campaignId', 'day', 'profileId']
@@ -134,7 +168,8 @@ class SponsoredBrandsReportCampaignsStream(BaseSponsoredBrandsReportStream):
                 "attributedSalesNewToBrandPercentage14d",
                 "attributedUnitsOrderedNewToBrand14d",
                 "attributedUnitsOrderedNewToBrandPercentage14d",
-            ])
+            ]),
+            "segment": "placement"
         }
 
     @property

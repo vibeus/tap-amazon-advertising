@@ -13,13 +13,22 @@
             "type": "string",
             "format": "date-time"
         },
-        "attributedSalesNewToBrand14d": {
+        "keywordId": {
+            "type": ["null", "string"]
+        },
+        "cost": {
+            "type": ["null", "number"]
+        },
+        "adGroupId": {
+            "type": ["null", "string"]
+        },
+        "adGroupName": {
             "type": ["null", "string"]
         },
         "campaignId": {
             "type": ["null", "string"]
         },
-        "placement": {
+        "matchType": {
             "type": ["null", "string"]
         },
         "impressions": {
@@ -28,8 +37,8 @@
         "clicks": {
             "type": ["null", "number"]
         },
-        "cost": {
-            "type": ["null", "number"]
+        "keywordText": {
+            "type": ["null", "string"]
         },
         "campaignName": {
             "type": ["null", "string"]
@@ -43,35 +52,14 @@
         "campaignStatus": {
             "type": ["null", "string"]
         },
-        "attributedSales14dSameSKU": {
-            "type": ["null", "number"]
-        },
-        "attributedOrdersNewToBrandPercentage14d": {
-            "type": ["null", "number"]
-        },
-        "attributedOrderRateNewToBrand14d": {
-            "type": ["null", "number"]
-        },
         "attributedConversions14d": {
-            "type": ["null", "number"]
-        },
-        "attributedConversions14dSameSKU": {
-            "type": ["null", "number"]
-        },
-        "attributedOrdersNewToBrand14d": {
-            "type": ["null", "number"]
-        },
-        "attributedUnitsOrderedNewToBrand14d": {
             "type": ["null", "number"]
         },
         "attributedSales14d": {
             "type": ["null", "number"]
         },
-        "attributedSalesNewToBrandPercentage14d": {
-            "type": ["null", "number"]
-        },
-        "attributedUnitsOrderedNewToBrandPercentage14d": {
-            "type": ["null", "number"]
+        "query": {
+            "type": ["null", "string"]
         }
     }
 }

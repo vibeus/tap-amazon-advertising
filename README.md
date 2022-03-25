@@ -8,18 +8,37 @@ It:
 
 - Generates a catalog of available data in the Amazon Advertising API
 - Extracts the following resources:
-    - portfolios
-    - profiles
-    - ad groups
-    - ad groups: biddable keywords
-    - ad groups: negative keywords
-    - campaigns:
-    - campaigns: negative keywords
-    - product ads
-    - sponsored products report: product ads
-    - sponsored brands report: ad groups
-    - sponsored brands report: campaigns
-    - sponsored brands report: keywords
+    - Portfolios
+    - Sponsored Display Campaigns
+    - Sponsored Products Campaigns
+    - Sponsored Brands Campaigns
+    - AdGroups
+    - Biddable Keywords
+    - Negative Keywords
+    - Campaign Negative Keywords
+    - Product Ads
+
+    - Sponsored Display Report: Product Ads
+    - Sponsored Display Report: Campaigns
+    - Sponsored Display Report: Ad Groups
+    - Sponsored Display Report: Targeting
+    - Sponsored Display Report: Asins
+
+    - Sponsored Products Report: Product Ads
+    - Sponsored Products Report: Campaigns
+    - Sponsored Products Report: Ad Groups
+    - Sponsored Products Report: Keywords
+    - Sponsored Products Report: Targeting
+    - Sponsored Products Report: Asins
+
+    - Sponsored Brands Report: Keywords
+    - Sponsored Brands Report: Campaigns
+    - Sponsored Brands Report: Ad Groups
+    - Sponsored Brands Report: Search Term
+
+    - Sponsored Brands Video Report: Keywords
+    - Sponsored Brands Video Report: Search Term
+    - Sponsored Brands Video Report: Campaigns
 
 ### Quick Start
 

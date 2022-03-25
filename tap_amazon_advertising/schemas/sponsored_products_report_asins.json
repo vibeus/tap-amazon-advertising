@@ -16,97 +16,82 @@
         "campaignId": {
             "type": ["null", "string"]
         },
-        "campaignStatus": {
+        "campaignName": {
             "type": ["null", "string"]
         },
-        "campaignBudget": {
-            "type": ["null", "number"]
-        },
-        "portfolioId": {
-            "type": ["null", "string"]
-        },
-        "portfolioName": {
-            "type": ["null", "string"]
-        },
-        "currency": {
+        "adGroupId": {
             "type": ["null", "string"]
         },
         "adGroupName": {
             "type": ["null", "string"]
         },
-        "campaignName": {
+        "currency": {
             "type": ["null", "string"]
         },
-        "cost": {
-            "type": ["null", "number"]
-        },
-        "costType": {
+        "targetId": {
             "type": ["null", "string"]
         },
-        "impressions": {
+        "targetingExpression": {
+            "type": ["null", "string"]
+        },
+        "targetingText": {
+            "type": ["null", "string"]
+        },
+        "targetingType": {
+            "type": ["null", "string"]
+        },
+        "keywordId": {
+            "type": ["null", "string"]
+        },
+        "keywordText": {
+            "type": ["null", "string"]
+        },
+        "matchType": {
+          "type": ["null", "string"]
+        }, 
+        "sku": {
+            "type": ["null", "string"]
+        },
+        "asin": {
+            "type": ["null", "string"]
+        }, 
+        "otherAsin": {
+            "type": ["null", "string"]
+        },
+        "attributedSales1dOtherSKU": {
             "type": ["null", "number"]
         },
-        "clicks": {
+        "attributedSales7dOtherSKU": {
             "type": ["null", "number"]
         },
-        "attributedSales7d": {
+        "attributedSales14dOtherSKU": {
             "type": ["null", "number"]
         },
-        "attributedSales30d": {
-            "type": ["null", "number"]
-        },
-        "attributedUnitsOrdered30d": {
-            "type": ["null", "number"]
-        },
-        "attributedSales1d": {
-            "type": ["null", "number"]
-        },
-        "attributedConversions1d": {
-            "type": ["null", "number"]
-        },
-        "attributedSales1dSameSKU": {
-            "type": ["null", "number"]
-        },
-        "attributedConversions30d": {
-            "type": ["null", "number"]
-        },
-        "attributedConversions7d": {
-            "type": ["null", "number"]
-        },
-        "attributedConversions14d": {
-            "type": ["null", "number"]
-        },
-        "attributedConversions7dSameSKU": {
-            "type": ["null", "number"]
-        },
-        "attributedConversions1dSameSKU": {
-            "type": ["null", "number"]
-        },
-        "attributedUnitsOrdered7d": {
-            "type": ["null", "number"]
-        },
-        "attributedSales7dSameSKU": {
-            "type": ["null", "number"]
-        },
-        "attributedSales14dSameSKU": {
-            "type": ["null", "number"]
-        },
-        "attributedSales30dSameSKU": {
+        "attributedSales30dOtherSKU": {
             "type": ["null", "number"]
         },
         "attributedUnitsOrdered1d": {
             "type": ["null", "number"]
         },
-        "attributedConversions30dSameSKU": {
-            "type": ["null", "number"]
-        },
-        "attributedConversions14dSameSKU": {
-            "type": ["null", "number"]
-        },
-        "attributedSales14d": {
+        "attributedUnitsOrdered7d": {
             "type": ["null", "number"]
         },
         "attributedUnitsOrdered14d": {
+            "type": ["null", "number"]
+        },
+        "attributedUnitsOrdered30d": {
+            "type": ["null", "number"]
+        },
+        "attributedUnitsOrdered1dOtherSKU": {
+            "type": ["null", "number"]
+        },
+        "attributedUnitsOrdered7dOtherSKU": {
+            "type": ["null", "number"]
+        },
+        "attributedUnitsOrdered14dOtherSKU": {
+            "type": ["null", "number"]
+        },
+        "attributedUnitsOrdered30dOtherSKU": {
             "type": ["null", "number"]
         }
     }
