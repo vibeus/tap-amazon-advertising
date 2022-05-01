@@ -18,8 +18,13 @@ from tap_amazon_advertising.state import incorporate, save_state, \
 from tap_framework.streams import BaseStream as base
 
 LOGGER = singer.get_logger()  # noqa
-BASE_URL = 'https://advertising-api.amazon.com'
 
+# use BASE_URL[self.config['region']]
+BASE_URL = {
+    'NA': 'https://advertising-api.amazon.com',
+    'EU': 'https://advertising-api-eu.amazon.com',
+    'FE': 'https://advertising-api-fe.amazon.com'
+}
 class BaseSponsoredProductsReportStream(ReportStream):
     API_METHOD = 'GET'
 
@@ -361,15 +366,16 @@ class SponsoredProductsReportAsinsStream(BaseSponsoredProductsReportStream):
         # takes _significantly_ longer to return a SUCCESS status
         time.sleep(10)
         LOGGER.info("Polling")
-        report_url = '{}/v2/reports/{}'.format(BASE_URL, report_id)
+        report_url = '{}/v2/reports/{}'.format(BASE_URL[self.config['region']], report_id)
 
-        num_polls = 10 # extended from 7 to 10， in case the network is slow
+        num_polls = 7 # extended from 7 to 10， in case the network is slow
         for i in range(num_polls):
             poll = self.client.make_request(report_url, 'GET')
             status = poll['status']
             LOGGER.info("Poll {} of {}, status={}".format(i+1, num_polls, status))
 
             if status == 'SUCCESS':
+                time.sleep(10)
                 return poll['location']
             else:
                 timeout = (1 + i) ** 2
@@ -384,15 +390,14 @@ class SponsoredProductsReportAsinsStream(BaseSponsoredProductsReportStream):
 
         yesterday = datetime.date.today() - datetime.timedelta(days=1)
 
-        sync_date = get_last_record_value_for_table(self.state, table)
-        if sync_date is None:
-            sync_date = get_config_start_date(self.config)
-
-        # Add a lookback to refresh attribution metrics for more recent orders
-        sync_date -= datetime.timedelta(days=self.config.get('lookback', 7))
-
         with singer.metrics.record_counter(endpoint=table) as counter:
             for profile in self.config.get('profiles'):
+                sync_date = get_last_record_value_for_table(self.state, table, profile['country_code'])
+                if sync_date is None:
+                    sync_date = get_config_start_date(self.config)
+                # Add a lookback to refresh attribution metrics for more recent orders
+                sync_date -= datetime.timedelta(days=self.config.get('lookback', 30))
+                end_date = self.config.get('end_date', min(yesterday, sync_date + datetime.timedelta(days=1)))
                 LOGGER.info('Syncing data for profile with country code {}'.format(profile['country_code']))
 
                 self.set_profile(profile['profile_id'], profile['country_code'])
@@ -401,7 +406,7 @@ class SponsoredProductsReportAsinsStream(BaseSponsoredProductsReportStream):
                     ["keywordId", "keywordText"]
                 ]
                 sync_date_copy = sync_date
-                while sync_date_copy <= yesterday:
+                while sync_date_copy <= end_date:
                     LOGGER.info("Syncing {} for date {}".format(table, sync_date_copy))
                     
                     for limitied in limitied_metrics:
@@ -421,9 +426,10 @@ class SponsoredProductsReportAsinsStream(BaseSponsoredProductsReportStream):
                                 counter.increment()
 
                             self.state = incorporate(self.state, self.TABLE,
-                                                    'last_record', sync_date_copy.isoformat())
+                                                    'last_record', sync_date_copy.isoformat(), profile['country_code'])
                     save_state(self.state)
 
                     sync_date_copy += datetime.timedelta(days=1)
+                time.sleep(30)
 
         return self.state

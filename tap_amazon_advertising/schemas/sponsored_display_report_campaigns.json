@@ -22,12 +22,6 @@
         "campaignBudget": {
             "type": ["null", "number"]
         },
-        "portfolioId": {
-            "type": ["null", "string"]
-        },
-        "portfolioName": {
-            "type": ["null", "string"]
-        },
         "currency": {
             "type": ["null", "string"]
         },

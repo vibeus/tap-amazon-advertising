@@ -43,20 +43,20 @@ AVAILABLE_STREAMS = [
     CampaignNegativeKeywordsStream,
     ProductAdsStream,
 
-    # SD Reports
+    # SB Video Reports
+    SponsoredBrandsVideoReportKeywordsStream,
+    SponsoredBrandsVideoReportSearchTermStream,
+    SponsoredBrandsVideoReportCampaignsStream,
+
+    # SD Reports (PART 1)
     SponsoredDisplayReportProductAdsStream,
     SponsoredDisplayReportCampaignsStream,
     SponsoredDisplayReportAdGroupsStream,
-    SponsoredDisplayReportTargetingStream,
-    SponsoredDisplayReportAsinsStream,
 
-    # SP Reports
+    # SP Reports (PART 1)
     SponsoredProductsReportProductAdsStream,
     SponsoredProductsReportCampaignsStream,
     SponsoredProductsReportAdGroupsStream,
-    SponsoredProductsReportKeywordsStream,
-    SponsoredProductsReportTargetingStream,
-    SponsoredProductsReportAsinsStream,
 
     # SB Reports
     SponsoredBrandsReportKeywordsStream,
@@ -64,10 +64,14 @@ AVAILABLE_STREAMS = [
     SponsoredBrandsReportAdGroupsStream,
     SponsoredBrandsReportSearchTermStream,
 
-    # SB Video Reports
-    SponsoredBrandsVideoReportKeywordsStream,
-    SponsoredBrandsVideoReportSearchTermStream,
-    SponsoredBrandsVideoReportCampaignsStream
+    # SD Reports (PART 2)
+    SponsoredDisplayReportTargetingStream,
+    SponsoredDisplayReportAsinsStream,
+
+    # SP Reports (PART 2)
+    SponsoredProductsReportKeywordsStream,
+    SponsoredProductsReportTargetingStream,
+    SponsoredProductsReportAsinsStream
 ]
 
 __all__ = [

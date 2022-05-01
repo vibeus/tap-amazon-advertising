@@ -61,6 +61,7 @@ class SponsoredBrandsReportKeywordsStream(BaseSponsoredBrandsReportStream):
                 "attributedSalesNewToBrandPercentage14d",
                 "attributedUnitsOrderedNewToBrand14d",
                 "attributedUnitsOrderedNewToBrandPercentage14d",
+                "attributedDetailPageViewsClicks14d",
             ]),
             "segment": "placement"
         }
@@ -137,6 +138,7 @@ class SponsoredBrandsReportAdGroupsStream(BaseSponsoredBrandsReportStream):
                 "attributedSalesNewToBrandPercentage14d",
                 "attributedUnitsOrderedNewToBrand14d",
                 "attributedUnitsOrderedNewToBrandPercentage14d",
+                "attributedDetailPageViewsClicks14d",
             ])
         }
 
@@ -168,6 +170,7 @@ class SponsoredBrandsReportCampaignsStream(BaseSponsoredBrandsReportStream):
                 "attributedSalesNewToBrandPercentage14d",
                 "attributedUnitsOrderedNewToBrand14d",
                 "attributedUnitsOrderedNewToBrandPercentage14d",
+                "attributedDetailPageViewsClicks14d",
             ]),
             "segment": "placement"
         }

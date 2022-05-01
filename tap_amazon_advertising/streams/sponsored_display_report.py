@@ -18,7 +18,13 @@ from tap_amazon_advertising.state import incorporate, save_state, \
 from tap_framework.streams import BaseStream as base
 
 LOGGER = singer.get_logger()  # noqa
-BASE_URL = 'https://advertising-api.amazon.com'
+
+# use BASE_URL[self.config['region']]
+BASE_URL = {
+    'NA': 'https://advertising-api.amazon.com',
+    'EU': 'https://advertising-api-eu.amazon.com',
+    'FE': 'https://advertising-api-fe.amazon.com'
+}
 
 class BaseSponsoredDisplayReportStream(ReportStream):
     API_METHOD = 'POST'
@@ -89,7 +95,7 @@ class BaseSponsoredDisplayReportStream(ReportStream):
         # takes _significantly_ longer to return a SUCCESS status
         time.sleep(10)
         LOGGER.info("Polling")
-        report_url = '{}/v2/reports/{}'.format(BASE_URL, report_id)
+        report_url = '{}/v2/reports/{}'.format(BASE_URL[self.config['region']], report_id)
 
         num_polls = 7
         for i in range(num_polls):
@@ -98,6 +104,7 @@ class BaseSponsoredDisplayReportStream(ReportStream):
             LOGGER.info("Poll {} of {}, status={}".format(i+1, num_polls, status))
 
             if status == 'SUCCESS':
+                time.sleep(10)
                 return poll['location']
             else:
                 timeout = (1 + i) ** 2
@@ -114,21 +121,25 @@ class BaseSponsoredDisplayReportStream(ReportStream):
 
         yesterday = datetime.date.today() - datetime.timedelta(days=1)
 
-        sync_date = get_last_record_value_for_table(self.state, table)
-        if sync_date is None:
-            sync_date = get_config_start_date(self.config)
-
-        # Add a lookback to refresh attribution metrics for more recent orders
-        sync_date -= datetime.timedelta(days=self.config.get('lookback', 7))
-
         with singer.metrics.record_counter(endpoint=table) as counter:
             for profile in self.config.get('profiles'):
+                sync_date = get_last_record_value_for_table(self.state, table, profile['country_code'])
+                if sync_date is None:
+                    sync_date = get_config_start_date(self.config)
+                # Add a lookback to refresh attribution metrics for more recent orders
+                sync_date -= datetime.timedelta(days=self.config.get('lookback', 30))
+                end_date = self.config.get('end_date', min(yesterday, sync_date + datetime.timedelta(days=1)))
+
+                if profile['country_code'] == "SG":
+                    LOGGER.info('No sponsored display report avalible for marketplace SG -- moving on')
+                    continue
+
                 LOGGER.info('Syncing data for profile with country code {}'.format(profile['country_code']))
 
                 self.set_profile(profile['profile_id'], profile['country_code'])
 
                 sync_date_copy = sync_date
-                while sync_date_copy <= yesterday:
+                while sync_date_copy <= end_date:
                     LOGGER.info("Syncing {} for date {}".format(table, sync_date_copy))
 
                     for tactic in tactics:
@@ -148,11 +159,11 @@ class BaseSponsoredDisplayReportStream(ReportStream):
                                 counter.increment()
 
                             self.state = incorporate(self.state, self.TABLE,
-                                                'last_record', sync_date_copy.isoformat())
+                                                'last_record', sync_date_copy.isoformat(), profile['country_code'])
                     save_state(self.state)
-
+            
                     sync_date_copy += datetime.timedelta(days=1)
-
+                
         return self.state    
 
 # Advertised product report
@@ -200,6 +211,7 @@ class SponsoredDisplayReportProductAdsStream(BaseSponsoredDisplayReportStream):
                 "attributedSales7dSameSKU",
                 "attributedSales14dSameSKU",
                 "attributedSales30dSameSKU",
+                "attributedDetailPageView14d",
             ])
         }
 
@@ -225,8 +237,6 @@ class SponsoredDisplayReportCampaignsStream(BaseSponsoredDisplayReportStream):
                 "clicks",
                 "cost",
                 "costType",
-                "portfolioId",
-                "portfolioName",
                 "attributedConversions1d",
                 "attributedConversions7d",
                 "attributedConversions14d",
@@ -247,6 +257,7 @@ class SponsoredDisplayReportCampaignsStream(BaseSponsoredDisplayReportStream):
                 "attributedSales7dSameSKU",
                 "attributedSales14dSameSKU",
                 "attributedSales30dSameSKU",
+                "attributedDetailPageView14d",
             ])
         }
 
@@ -292,6 +303,7 @@ class SponsoredDisplayReportAdGroupsStream(BaseSponsoredDisplayReportStream):
                 "attributedSales7dSameSKU",
                 "attributedSales14dSameSKU",
                 "attributedSales30dSameSKU",
+                "attributedDetailPageView14d",
             ])
         }
 
@@ -345,6 +357,7 @@ class SponsoredDisplayReportTargetingStream(BaseSponsoredDisplayReportStream):
                 "attributedSalesNewToBrand14d", 
                 "attributedOrdersNewToBrand14d", 
                 "attributedUnitsOrderedNewToBrand14d", 
+                "attributedDetailPageView14d",
             ])
         }
 
