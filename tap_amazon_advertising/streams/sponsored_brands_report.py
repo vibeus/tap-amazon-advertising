@@ -95,7 +95,7 @@ class SponsoredBrandsReportSearchTermStream(BaseSponsoredBrandsReportStream):
                 "attributedSales14d",
                 "attributedConversions14d",
             ]),
-            "segment": "query"
+            "segment": "placement, query"
         }
 
 

@@ -242,24 +242,24 @@ class SponsoredProductsReportKeywordsStream(BaseSponsoredProductsReportStream):
                 "impressions",
                 "clicks",
                 "cost",
-                "attributedConversions1d",
-                "attributedConversions7d",
+                # "attributedConversions1d",
+                # "attributedConversions7d",
                 "attributedConversions14d",
                 "attributedConversions30d",
-                "attributedConversions1dSameSKU",
-                "attributedConversions7dSameSKU",
+                # "attributedConversions1dSameSKU",
+                # "attributedConversions7dSameSKU",
                 "attributedConversions14dSameSKU",
                 "attributedConversions30dSameSKU",
-                "attributedUnitsOrdered1d",
-                "attributedUnitsOrdered7d",
+                # "attributedUnitsOrdered1d",
+                # "attributedUnitsOrdered7d",
                 "attributedUnitsOrdered14d",
                 "attributedUnitsOrdered30d",
-                "attributedSales1d",
-                "attributedSales7d",
+                # "attributedSales1d",
+                # "attributedSales7d",
                 "attributedSales14d",
                 "attributedSales30d",
-                "attributedSales1dSameSKU",
-                "attributedSales7dSameSKU",
+                # "attributedSales1dSameSKU",
+                # "attributedSales7dSameSKU",
                 "attributedSales14dSameSKU",
                 "attributedSales30dSameSKU",
             ]),
@@ -292,27 +292,28 @@ class SponsoredProductsReportTargetingStream(BaseSponsoredProductsReportStream):
                 "targetingExpression", 
                 "targetingText", 
                 "targetingType",
-                "attributedConversions1d",
-                "attributedConversions7d",
+                # "attributedConversions1d",
+                # "attributedConversions7d",
                 "attributedConversions14d",
                 "attributedConversions30d",
-                "attributedConversions1dSameSKU",
-                "attributedConversions7dSameSKU",
+                # "attributedConversions1dSameSKU",
+                # "attributedConversions7dSameSKU",
                 "attributedConversions14dSameSKU",
                 "attributedConversions30dSameSKU",
-                "attributedUnitsOrdered1d",
-                "attributedUnitsOrdered7d",
+                # "attributedUnitsOrdered1d",
+                # "attributedUnitsOrdered7d",
                 "attributedUnitsOrdered14d",
                 "attributedUnitsOrdered30d",
-                "attributedSales1d",
-                "attributedSales7d",
+                # "attributedSales1d",
+                # "attributedSales7d",
                 "attributedSales14d",
                 "attributedSales30d",
-                "attributedSales1dSameSKU",
-                "attributedSales7dSameSKU",
+                # "attributedSales1dSameSKU",
+                # "attributedSales7dSameSKU",
                 "attributedSales14dSameSKU",
                 "attributedSales30dSameSKU",
-            ])
+            ]),
+            "segment": "query"
         }
 
 # Purchased product report:
@@ -339,16 +340,16 @@ class SponsoredProductsReportAsinsStream(BaseSponsoredProductsReportStream):
                 "sku", 
                 "asin",  
                 "otherAsin", 
-                "attributedSales1dOtherSKU", 
-                "attributedSales7dOtherSKU", 
+                # "attributedSales1dOtherSKU", 
+                # "attributedSales7dOtherSKU", 
                 "attributedSales14dOtherSKU", 
                 "attributedSales30dOtherSKU", 
-                "attributedUnitsOrdered1d", 
-                "attributedUnitsOrdered7d", 
+                # "attributedUnitsOrdered1d", 
+                # "attributedUnitsOrdered7d", 
                 "attributedUnitsOrdered14d", 
                 "attributedUnitsOrdered30d", 
-                "attributedUnitsOrdered1dOtherSKU", 
-                "attributedUnitsOrdered7dOtherSKU", 
+                # "attributedUnitsOrdered1dOtherSKU", 
+                # "attributedUnitsOrdered7dOtherSKU", 
                 "attributedUnitsOrdered14dOtherSKU", 
                 "attributedUnitsOrdered30dOtherSKU", 
             ]),
@@ -375,7 +376,6 @@ class SponsoredProductsReportAsinsStream(BaseSponsoredProductsReportStream):
             LOGGER.info("Poll {} of {}, status={}".format(i+1, num_polls, status))
 
             if status == 'SUCCESS':
-                time.sleep(10)
                 return poll['location']
             else:
                 timeout = (1 + i) ** 2
@@ -389,15 +389,19 @@ class SponsoredProductsReportAsinsStream(BaseSponsoredProductsReportStream):
         LOGGER.info('Syncing data for entity {}'.format(table))
 
         yesterday = datetime.date.today() - datetime.timedelta(days=1)
+        WINDOW_start = datetime.date.today() - datetime.timedelta(days=60)
 
         with singer.metrics.record_counter(endpoint=table) as counter:
             for profile in self.config.get('profiles'):
                 sync_date = get_last_record_value_for_table(self.state, table, profile['country_code'])
                 if sync_date is None:
                     sync_date = get_config_start_date(self.config)
+
                 # Add a lookback to refresh attribution metrics for more recent orders
-                sync_date -= datetime.timedelta(days=self.config.get('lookback', 30))
+                # If the sync_date is over 60 days ago from today, use the date 60 days ago from today instead.
+                sync_date = max(sync_date - datetime.timedelta(days=self.config.get('lookback', 30)), WINDOW_start)
                 end_date = self.config.get('end_date', min(yesterday, sync_date + datetime.timedelta(days=1)))
+                
                 LOGGER.info('Syncing data for profile with country code {}'.format(profile['country_code']))
 
                 self.set_profile(profile['profile_id'], profile['country_code'])

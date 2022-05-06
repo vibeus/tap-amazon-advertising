@@ -145,7 +145,6 @@ class ReportStream(BaseStream):
             LOGGER.info("Poll {} of {}, status={}".format(i+1, num_polls, status))
 
             if status == 'SUCCESS':
-                time.sleep(10)
                 return poll['location']
             else:
                 timeout = (1 + i) ** 2
@@ -159,15 +158,19 @@ class ReportStream(BaseStream):
         LOGGER.info('Syncing data for entity {}'.format(table))
 
         yesterday = datetime.date.today() - datetime.timedelta(days=1)
+        WINDOW_start = datetime.date.today() - datetime.timedelta(days=60)
 
         with singer.metrics.record_counter(endpoint=table) as counter:
             for profile in self.config.get('profiles'):
                 sync_date = get_last_record_value_for_table(self.state, table, profile['country_code'])
                 if sync_date is None:
                     sync_date = get_config_start_date(self.config)
+
                 # Add a lookback to refresh attribution metrics for more recent orders
-                sync_date -= datetime.timedelta(days=self.config.get('lookback', 30))
+                # If the sync_date is over 60 days ago from today, use the date 60 days ago from today instead.
+                sync_date = max(sync_date - datetime.timedelta(days=self.config.get('lookback', 30)), WINDOW_start)
                 end_date = self.config.get('end_date', min(yesterday, sync_date + datetime.timedelta(days=1)))
+
                 LOGGER.info('Syncing data for profile with country code {}'.format(profile['country_code']))
 
                 self.set_profile(profile['profile_id'], profile['country_code'])
@@ -180,9 +183,6 @@ class ReportStream(BaseStream):
                     report_url = self.create_report(url, sync_date_copy)
 
                     if report_url is None:
-                        self.state = incorporate(self.state, self.TABLE,
-                                            'last_record', sync_date_copy.isoformat(), profile['country_code'])
-                        save_state(self.state)
                         break
 
                     result = self.client.download_gzip(report_url)

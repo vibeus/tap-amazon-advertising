@@ -50,22 +50,10 @@
         "targetingType": {
             "type": ["null", "string"]
         },
-        "attributedConversions1d": {
-            "type": ["null", "number"]
-        },
-        "attributedConversions7d": {
-            "type": ["null", "number"]
-        },
         "attributedConversions14d": {
             "type": ["null", "number"]
         },
         "attributedConversions30d": {
-            "type": ["null", "number"]
-        },
-        "attributedConversions1dSameSKU": {
-            "type": ["null", "number"]
-        },
-        "attributedConversions7dSameSKU": {
             "type": ["null", "number"]
         },
         "attributedConversions14dSameSKU": {
@@ -74,34 +62,16 @@
         "attributedConversions30dSameSKU": {
             "type": ["null", "number"]
         },
-        "attributedSales1d": {
-            "type": ["null", "number"]
-        },
-        "attributedSales7d": {
-            "type": ["null", "number"]
-        },
         "attributedSales14d": {
             "type": ["null", "number"]
         },
         "attributedSales30d": {
             "type": ["null", "number"]
         },
-        "attributedSales1dSameSKU": {
-            "type": ["null", "number"]
-        },
-        "attributedSales7dSameSKU": {
-            "type": ["null", "number"]
-        },
         "attributedSales14dSameSKU": {
             "type": ["null", "number"]
         },
         "attributedSales30dSameSKU": {
-            "type": ["null", "number"]
-        },
-        "attributedUnitsOrdered1d": {
-            "type": ["null", "number"]
-        },
-        "attributedUnitsOrdered7d": {
             "type": ["null", "number"]
         },
         "attributedUnitsOrdered14d": {

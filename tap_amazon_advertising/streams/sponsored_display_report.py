@@ -104,7 +104,6 @@ class BaseSponsoredDisplayReportStream(ReportStream):
             LOGGER.info("Poll {} of {}, status={}".format(i+1, num_polls, status))
 
             if status == 'SUCCESS':
-                time.sleep(10)
                 return poll['location']
             else:
                 timeout = (1 + i) ** 2
@@ -120,14 +119,17 @@ class BaseSponsoredDisplayReportStream(ReportStream):
         tactics = ['T00020', 'T00030']
 
         yesterday = datetime.date.today() - datetime.timedelta(days=1)
+        WINDOW_start = datetime.date.today() - datetime.timedelta(days=60)
 
         with singer.metrics.record_counter(endpoint=table) as counter:
             for profile in self.config.get('profiles'):
                 sync_date = get_last_record_value_for_table(self.state, table, profile['country_code'])
                 if sync_date is None:
                     sync_date = get_config_start_date(self.config)
+
                 # Add a lookback to refresh attribution metrics for more recent orders
-                sync_date -= datetime.timedelta(days=self.config.get('lookback', 30))
+                # If the sync_date is over 60 days ago from today, use the date 60 days ago from today instead.
+                sync_date = max(sync_date - datetime.timedelta(days=self.config.get('lookback', 30)), WINDOW_start)
                 end_date = self.config.get('end_date', min(yesterday, sync_date + datetime.timedelta(days=1)))
 
                 if profile['country_code'] == "SG":
@@ -258,6 +260,8 @@ class SponsoredDisplayReportCampaignsStream(BaseSponsoredDisplayReportStream):
                 "attributedSales14dSameSKU",
                 "attributedSales30dSameSKU",
                 "attributedDetailPageView14d",
+                "attributedUnitsOrderedNewToBrand14d", 
+                "attributedOrdersNewToBrand14d", 
             ])
         }
 
@@ -304,6 +308,8 @@ class SponsoredDisplayReportAdGroupsStream(BaseSponsoredDisplayReportStream):
                 "attributedSales14dSameSKU",
                 "attributedSales30dSameSKU",
                 "attributedDetailPageView14d",
+                "attributedUnitsOrderedNewToBrand14d", 
+                "attributedOrdersNewToBrand14d", 
             ])
         }
 
@@ -333,35 +339,34 @@ class SponsoredDisplayReportTargetingStream(BaseSponsoredDisplayReportStream):
                 "targetingExpression", 
                 "targetingText", 
                 "targetingType", 
-                "attributedConversions1d", 
-                "attributedConversions7d", 
+                # "attributedConversions1d", 
+                # "attributedConversions7d", 
                 "attributedConversions14d", 
                 "attributedConversions30d", 
-                "attributedConversions1dSameSKU", 
-                "attributedConversions7dSameSKU", 
+                # "attributedConversions1dSameSKU", 
+                # "attributedConversions7dSameSKU", 
                 "attributedConversions14dSameSKU", 
                 "attributedConversions30dSameSKU", 
-                "attributedSales1d", 
-                "attributedSales7d", 
+                # "attributedSales1d", 
+                # "attributedSales7d", 
                 "attributedSales14d", 
                 "attributedSales30d", 
-                "attributedSales1dSameSKU", 
-                "attributedSales7dSameSKU", 
+                # "attributedSales1dSameSKU", 
+                # "attributedSales7dSameSKU", 
                 "attributedSales14dSameSKU", 
                 "attributedSales30dSameSKU", 
-                "attributedUnitsOrdered1d", 
-                "attributedUnitsOrdered7d", 
+                # "attributedUnitsOrdered1d", 
+                # "attributedUnitsOrdered7d", 
                 "attributedUnitsOrdered14d", 
                 "attributedUnitsOrdered30d", 
                 "attributedDetailPageView14d", 
                 "attributedSalesNewToBrand14d", 
                 "attributedOrdersNewToBrand14d", 
                 "attributedUnitsOrderedNewToBrand14d", 
-                "attributedDetailPageView14d",
             ])
         }
 
-## Purchased product report
+# Purchased product report
 class SponsoredDisplayReportAsinsStream(BaseSponsoredDisplayReportStream):
     TABLE = 'sponsored_display_report_asins'
     KEY_PROPERTIES = ['campaignId', 'day', 'profileId']
@@ -384,12 +389,12 @@ class SponsoredDisplayReportAsinsStream(BaseSponsoredDisplayReportStream):
                 "otherAsin", 
                 "sku", 
                 "attributedSales14dOtherSKU", 
-                "attributedSales1dOtherSKU", 
+                # "attributedSales1dOtherSKU", 
                 "attributedSales30dOtherSKU", 
-                "attributedSales7dOtherSKU", 
+                # "attributedSales7dOtherSKU", 
                 "attributedUnitsOrdered14dOtherSKU", 
-                "attributedUnitsOrdered1dOtherSKU", 
+                # "attributedUnitsOrdered1dOtherSKU", 
                 "attributedUnitsOrdered30dOtherSKU", 
-                "attributedUnitsOrdered7dOtherSKU", 
+                # "attributedUnitsOrdered7dOtherSKU", 
             ])
         }
