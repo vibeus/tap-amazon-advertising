@@ -75,7 +75,7 @@ def parse_args_list(required_config_keys):
             new_arg.state = {}
         if parsed_args.properties:
             setattr(parsed_args, 'properties_path', parsed_args.properties)
-            new_arg.properties = singer.utils.load_json(args.properties)
+            new_arg.properties = singer.utils.load_json(parsed_args.properties)
         if parsed_args.catalog:
             setattr(parsed_args, 'catalog_path', parsed_args.catalog)
             new_arg.catalog = Catalog.load(parsed_args.catalog)
