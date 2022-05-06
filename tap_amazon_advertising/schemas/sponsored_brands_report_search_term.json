@@ -60,6 +60,9 @@
         },
         "query": {
             "type": ["null", "string"]
+        },
+        "placement": {
+            "type": ["null", "string"]
         }
     }
 }

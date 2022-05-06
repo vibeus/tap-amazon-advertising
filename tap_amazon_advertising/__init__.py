@@ -3,6 +3,7 @@
 import singer
 import re
 import os
+import time
 
 import argparse
 from argparse import Namespace
@@ -78,6 +79,8 @@ def parse_args_list(required_config_keys):
         if parsed_args.catalog:
             setattr(parsed_args, 'catalog_path', parsed_args.catalog)
             new_arg.catalog = Catalog.load(parsed_args.catalog)
+        else:
+            new_arg.catalog = parsed_args.catalog
         
         new_arg.discover = parsed_args.discover
         
@@ -118,9 +121,8 @@ class AmazonAdvertisingRunner(tap_framework.Runner):
 @singer.utils.handle_top_exception(LOGGER)
 def main():
     args_list = parse_args_list(required_config_keys=REQUIRED_CONFIG_KEYS)
-    LOGGER.info(args_list)
+    LOGGER.info(f"start_time: {time.time()}")
     for args in args_list:
-        LOGGER.info(args)
         if not args.discover:
             args.config = expand_env(args.config)
 
@@ -131,6 +133,7 @@ def main():
 
         if args.discover:
             runner.do_discover()
+            break
         else:
             runner.do_sync()
 

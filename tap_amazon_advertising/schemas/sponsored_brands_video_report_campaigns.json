@@ -81,6 +81,9 @@
         },        
         "placement": {
             "type": ["null", "string"]
+        },
+        "attributedDetailPageViewsClicks14d": {
+            "type": ["null", "number"]
         }
     }
 }

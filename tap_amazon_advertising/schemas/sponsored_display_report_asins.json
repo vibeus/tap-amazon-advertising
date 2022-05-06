@@ -40,25 +40,13 @@
         "attributedSales14dOtherSKU": {
             "type": ["null", "number"]
         },
-        "attributedSales1dOtherSKU": {
-            "type": ["null", "number"]
-        },
         "attributedSales30dOtherSKU": {
-            "type": ["null", "number"]
-        },
-        "attributedSales7dOtherSKU": {
             "type": ["null", "number"]
         },
         "attributedUnitsOrdered14dOtherSKU": {
             "type": ["null", "number"]
         },
-        "attributedUnitsOrdered1dOtherSKU": {
-            "type": ["null", "number"]
-        },
         "attributedUnitsOrdered30dOtherSKU": {
-            "type": ["null", "number"]
-        },
-        "attributedUnitsOrdered7dOtherSKU": {
             "type": ["null", "number"]
         }
     }

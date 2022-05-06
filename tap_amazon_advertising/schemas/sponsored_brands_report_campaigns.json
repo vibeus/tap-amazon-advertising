@@ -72,6 +72,9 @@
         },
         "attributedUnitsOrderedNewToBrandPercentage14d": {
             "type": ["null", "number"]
+        },
+        "attributedDetailPageViewsClicks14d":{
+            "type": ["null", "number"]
         }
     }
 }

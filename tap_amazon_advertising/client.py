@@ -15,7 +15,7 @@ SCOPES = ["advertising::campaign_management"]
 
 class AmazonAdvertisingClient:
 
-    MAX_TRIES = 5
+    MAX_TRIES = 10
 
     def __init__(self, config):
         self.config = config
@@ -44,6 +44,7 @@ class AmazonAdvertisingClient:
         if not self.profile_id:
             raise RuntimeError("Client profile_id is None!")
 
+        LOGGER.info(f"Current Time: {time.time()}")
         LOGGER.info("Making {} request to {} ({})".format(method, url, params))
 
         kwargs = {
@@ -82,7 +83,11 @@ class AmazonAdvertisingClient:
         return response
 
     def make_request(self, url, method, params=None, body=None):
-        return self._make_request(url, method, params, body).json()
+        response = self._make_request(url, method, params, body)
+        resp = response.json()
+        response.close()
+        return resp
+        # return self._make_request(url, method, params, body).json()
 
     def download_gzip(self, url):
         resp = None

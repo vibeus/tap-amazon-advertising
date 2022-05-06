@@ -36,6 +36,7 @@ class SponsoredBrandsVideoReportKeywordsStream(BaseSponsoredBrandsReportStream):
               "attributedConversions14dSameSKU", 
               "attributedSales14d", 
               "attributedSales14dSameSKU", 
+              "attributedDetailPageViewsClicks14d",
             ]),
             "creativeType": "video"
         }
@@ -116,7 +117,8 @@ class SponsoredBrandsVideoReportCampaignsStream(BaseSponsoredBrandsReportStream)
               "attributedConversions14d", 
               "attributedConversions14dSameSKU", 
               "attributedSales14d", 
-              "attributedSales14dSameSKU", 
+              "attributedSales14dSameSKU",
+              "attributedDetailPageViewsClicks14d", 
             ]),
             "segment": "placement",
             "creativeType": "video"

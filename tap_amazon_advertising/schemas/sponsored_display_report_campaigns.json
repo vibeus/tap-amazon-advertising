@@ -22,12 +22,6 @@
         "campaignBudget": {
             "type": ["null", "number"]
         },
-        "portfolioId": {
-            "type": ["null", "string"]
-        },
-        "portfolioName": {
-            "type": ["null", "string"]
-        },
         "currency": {
             "type": ["null", "string"]
         },
@@ -107,6 +101,15 @@
             "type": ["null", "number"]
         },
         "attributedUnitsOrdered14d": {
+            "type": ["null", "number"]
+        },
+        "attributedDetailPageView14d": {
+            "type": ["null", "number"]
+        }, 
+        "attributedOrdersNewToBrand14d":{
+            "type": ["null", "number"]
+        },
+        "attributedUnitsOrderedNewToBrand14d":{
             "type": ["null", "number"]
         }
     }
