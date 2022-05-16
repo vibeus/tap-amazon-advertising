@@ -400,7 +400,7 @@ class SponsoredProductsReportAsinsStream(BaseSponsoredProductsReportStream):
                 # Add a lookback to refresh attribution metrics for more recent orders
                 # If the sync_date is over 60 days ago from today, use the date 60 days ago from today instead.
                 sync_date = max(sync_date - datetime.timedelta(days=self.config.get('lookback', 30)), WINDOW_start)
-                end_date = self.config.get('end_date', min(yesterday, sync_date + datetime.timedelta(days=1)))
+                end_date = self.config.get('end_date', min(yesterday, sync_date + datetime.timedelta(days=5)))
                 
                 LOGGER.info('Syncing data for profile with country code {}'.format(profile['country_code']))
 
@@ -431,6 +431,11 @@ class SponsoredProductsReportAsinsStream(BaseSponsoredProductsReportStream):
 
                             self.state = incorporate(self.state, self.TABLE,
                                                     'last_record', sync_date_copy.isoformat(), profile['country_code'])
+                            save_state(self.state)
+
+                    if sync_date_copy == end_date and end_date < datetime.date.today() - datetime.timedelta(days=30) :
+                        self.state = incorporate(self.state, self.TABLE,
+                                        'last_record', sync_date_copy.isoformat(), profile['country_code'])
                     save_state(self.state)
 
                     sync_date_copy += datetime.timedelta(days=1)
