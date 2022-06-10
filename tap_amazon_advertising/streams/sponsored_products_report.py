@@ -131,7 +131,7 @@ class SponsoredProductsReportProductAdsStream(BaseSponsoredProductsReportStream)
 # Campaign report / Placement report
 class SponsoredProductsReportCampaignsStream(BaseSponsoredProductsReportStream):
     TABLE = 'sponsored_products_report_campaigns'
-    KEY_PROPERTIES = ['campaignId', 'day', 'profileId']
+    KEY_PROPERTIES = ['campaignId', 'day', 'profileId', "placement"]
 
     @property
     def recordType(self):
@@ -221,7 +221,7 @@ class SponsoredProductsReportAdGroupsStream(BaseSponsoredProductsReportStream):
 # Search term report
 class SponsoredProductsReportKeywordsStream(BaseSponsoredProductsReportStream):
     TABLE = 'sponsored_products_report_keywords'
-    KEY_PROPERTIES = ['keywordId', 'day', 'profileId']
+    KEY_PROPERTIES = ['keywordId', 'day', 'profileId', "query"]
 
     @property
     def recordType(self):
@@ -269,7 +269,7 @@ class SponsoredProductsReportKeywordsStream(BaseSponsoredProductsReportStream):
 # Targeting report
 class SponsoredProductsReportTargetingStream(BaseSponsoredProductsReportStream):
     TABLE = 'sponsored_products_report_targeting'
-    KEY_PROPERTIES = ['targetId', 'day', 'profileId']
+    KEY_PROPERTIES = ['targetId', 'day', 'profileId', "query"]
 
     @property
     def recordType(self):

@@ -197,10 +197,11 @@ class ReportStream(BaseStream):
                                                 'last_record', sync_date_copy.isoformat(), profile['country_code'])
                         save_state(self.state)
                     
-                    if sync_date_copy == end_date and end_date < datetime.date.today() - datetime.timedelta(days=30) :
-                            self.state = incorporate(self.state, self.TABLE,
-                                            'last_record', sync_date_copy.isoformat(), profile['country_code'])
-                            save_state(self.state)
+                    else:
+                        if sync_date_copy == end_date and end_date < datetime.date.today() - datetime.timedelta(days=30) :
+                                self.state = incorporate(self.state, self.TABLE,
+                                                'last_record', sync_date_copy.isoformat(), profile['country_code'])
+                                save_state(self.state)
 
                     sync_date_copy += datetime.timedelta(days=1)
 

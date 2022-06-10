@@ -225,7 +225,7 @@ class SponsoredDisplayReportProductAdsStream(BaseSponsoredDisplayReportStream):
 # Campaign report
 class SponsoredDisplayReportCampaignsStream(BaseSponsoredDisplayReportStream):
     TABLE = 'sponsored_display_report_campaigns'
-    KEY_PROPERTIES = ['campaignId', 'day', 'profileId']
+    KEY_PROPERTIES = ['campaignId', 'day', 'profileId', "placement"]
 
     @property
     def recordType(self):
