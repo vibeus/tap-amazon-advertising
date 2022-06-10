@@ -49,7 +49,7 @@ class SponsoredBrandsVideoReportKeywordsStream(BaseSponsoredBrandsReportStream):
 # Search term report
 class SponsoredBrandsVideoReportSearchTermStream(BaseSponsoredBrandsReportStream):
     TABLE = 'sponsored_brands_video_report_search_term'
-    KEY_PROPERTIES = ['keywordId', 'day', 'profileId']
+    KEY_PROPERTIES = ['keywordId', 'day', 'profileId', "query"]
 
     def get_body(self, day):
         return {
@@ -91,7 +91,7 @@ class SponsoredBrandsVideoReportSearchTermStream(BaseSponsoredBrandsReportStream
 # Campaign report / Campaign placement report
 class SponsoredBrandsVideoReportCampaignsStream(BaseSponsoredBrandsReportStream):
     TABLE = 'sponsored_brands_video_report_campaigns'
-    KEY_PROPERTIES = ['campaignId', 'day', 'profileId']
+    KEY_PROPERTIES = ['campaignId', 'day', 'profileId', "placement"]
 
     def get_body(self, day):
         return {

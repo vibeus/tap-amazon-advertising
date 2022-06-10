@@ -130,7 +130,7 @@ class BaseSponsoredDisplayReportStream(ReportStream):
                 # Add a lookback to refresh attribution metrics for more recent orders
                 # If the sync_date is over 60 days ago from today, use the date 60 days ago from today instead.
                 sync_date = max(sync_date - datetime.timedelta(days=self.config.get('lookback', 30)), WINDOW_start)
-                end_date = self.config.get('end_date', min(yesterday, sync_date + datetime.timedelta(days=1)))
+                end_date = self.config.get('end_date', min(yesterday, sync_date + datetime.timedelta(days=5)))
 
                 if profile['country_code'] == "SG":
                     LOGGER.info('No sponsored display report avalible for marketplace SG -- moving on')
@@ -162,6 +162,11 @@ class BaseSponsoredDisplayReportStream(ReportStream):
 
                             self.state = incorporate(self.state, self.TABLE,
                                                 'last_record', sync_date_copy.isoformat(), profile['country_code'])
+                            save_state(self.state)
+                    
+                    if sync_date_copy == end_date and end_date < datetime.date.today() - datetime.timedelta(days=30) :
+                        self.state = incorporate(self.state, self.TABLE,
+                                        'last_record', sync_date_copy.isoformat(), profile['country_code'])
                     save_state(self.state)
             
                     sync_date_copy += datetime.timedelta(days=1)
@@ -220,7 +225,7 @@ class SponsoredDisplayReportProductAdsStream(BaseSponsoredDisplayReportStream):
 # Campaign report
 class SponsoredDisplayReportCampaignsStream(BaseSponsoredDisplayReportStream):
     TABLE = 'sponsored_display_report_campaigns'
-    KEY_PROPERTIES = ['campaignId', 'day', 'profileId']
+    KEY_PROPERTIES = ['campaignId', 'day', 'profileId', "placement"]
 
     @property
     def recordType(self):
