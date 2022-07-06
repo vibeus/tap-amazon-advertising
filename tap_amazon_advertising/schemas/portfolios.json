@@ -25,24 +25,24 @@
             "properties": {
                 "amount": {
                     "description": "The budget amount.",
-                    "type": "number"
+                    "type": ["null", "number"]
                 },
                 "currencyCode": {
                     "description": "The currency code of the budget.",
-                    "type": "string"
+                    "type": ["null", "string"]
                 },
                 "policy": {
                     "description": "The policy of the portfolio.",
-                    "type": "string",
+                    "type": ["null", "string"],
                     "oneof": ["dateRange"]
                 },
                 "startDate": {
                     "description": "The start date of the portfolio.",
-                    "type": "string"
+                    "type": ["null", "string"]
                 },
                 "endDate": {
                     "description": "The end date of the portfolio.",
-                    "type": "string"
+                    "type": ["null", "string"]
                 }
             }
         },
