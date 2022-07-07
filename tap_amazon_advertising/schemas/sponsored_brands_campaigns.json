@@ -12,7 +12,7 @@
         },
         "portfolioId": {
             "description": "The ID of the portfolio",
-            "type": "integer"
+            "type": ["null", "integer"]
         },
         "campaignId": {
             "description": "The ID of the campaign",
