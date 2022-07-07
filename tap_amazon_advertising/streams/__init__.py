@@ -36,7 +36,7 @@ AVAILABLE_STREAMS = [
     PortfoliosStream,
     SponsoredDisplayCampaignsStream,
     SponsoredProductsCampaignsStream,
-    # SponsoredBrandsCampaignsStream,
+    SponsoredBrandsCampaignsStream,
     AdGroupsStream,
     BiddableKeywordsStream,
     NegativeKeywordsStream,

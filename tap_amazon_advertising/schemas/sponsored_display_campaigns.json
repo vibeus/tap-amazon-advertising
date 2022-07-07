@@ -24,7 +24,7 @@
         },
         "targetingType": {
             "description": "Differentiates between a keyword-targeted and automatically targeted campaign",
-            "type": "string",
+            "type": ["null", "string"],
             "oneOf": [
                 "manual",
                 "auto"
@@ -44,7 +44,7 @@
         },
         "dailyBudget": {
             "description": "Daily budget for the campaign in dollars",
-            "type": "number",
+            "type": ["null", "number"],
             "minimum": 1.0
         },
         "startDate": {
@@ -53,15 +53,15 @@
         },
         "endDate": {
             "description": "The optional date the campaign will stop running as YYYYMMDD",
-            "type": "string"
+            "type": ["null", "string"]
         },
         "premiumBidAdjustment": {
             "description": "When enabled, Amazon will increase the default bid for your ads that are eligible to appear in this placement. See developer notes for more information.",
-            "type": "boolean"
+            "type": ["null", "boolean"]
         },
         "placement": {
             "description": "Ad placement. Only returned when segment is set to placement.",
-            "type": "string",
+            "type": ["null", "string"],
             "oneOf": [
                 "Top of Search on-Amazon",
                 "Other on-Amazon"
@@ -69,11 +69,11 @@
         },
         "creationDate": {
             "description": "The date the campaign was created as epoch time in milliseconds",
-            "type": "integer"
+            "type": ["null", "integer"]
         },
         "lastUpdatedDate": {
             "description": "The date the campaign was last updated as epoch time in milliseconds",
-            "type": "integer"
+            "type": ["null", "integer"]
         },
         "servingStatus": {
             "description": "The computed status, accounting for campaign out of budget, policy violations, etc. See developer notes for more information.",
