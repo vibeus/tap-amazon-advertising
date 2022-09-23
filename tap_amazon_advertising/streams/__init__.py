@@ -31,8 +31,11 @@ from tap_amazon_advertising.streams.sponsored_brands_video_report import Sponsor
         SponsoredBrandsVideoReportSearchTermStream, \
         SponsoredBrandsVideoReportCampaignsStream
 
+from tap_amazon_advertising.streams.attribution_report import AttributionReportCampaignPerformanceStream
+
 
 AVAILABLE_STREAMS = [
+    AttributionReportCampaignPerformanceStream,
     PortfoliosStream,
     SponsoredDisplayCampaignsStream,
     SponsoredProductsCampaignsStream,
@@ -75,6 +78,7 @@ AVAILABLE_STREAMS = [
 ]
 
 __all__ = [
+    'AttributionReportCampaignPerformanceStream'
     'PortfoliosStream',
     'SponsoredProductsCampaignsStream',
     'SponsoredBrandsCampaignsStream',
