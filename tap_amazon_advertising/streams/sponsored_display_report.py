@@ -83,7 +83,7 @@ class BaseSponsoredDisplayReportStream(ReportStream):
             self.transform_record(record)
             for record in result
         ]
-    
+
     def create_report(self, url, day, tactic):
         body = self.get_body(day, tactic)
 
@@ -120,6 +120,9 @@ class BaseSponsoredDisplayReportStream(ReportStream):
 
         yesterday = datetime.date.today() - datetime.timedelta(days=1)
         WINDOW_start = datetime.date.today() - datetime.timedelta(days=60)
+        lookback = self.config.get('lookback', [1, 7, 14, 30])
+        sync_dates = set()
+
 
         with singer.metrics.record_counter(endpoint=table) as counter:
             for profile in self.config.get('profiles'):
@@ -129,8 +132,16 @@ class BaseSponsoredDisplayReportStream(ReportStream):
 
                 # Add a lookback to refresh attribution metrics for more recent orders
                 # If the sync_date is over 60 days ago from today, use the date 60 days ago from today instead.
-                sync_date = max(sync_date - datetime.timedelta(days=self.config.get('lookback', 30)), WINDOW_start)
-                end_date = self.config.get('end_date', min(yesterday, sync_date + datetime.timedelta(days=5)))
+                if len(lookback) == 1:
+                    sync_date = max(sync_date - datetime.timedelta(days=lookback), WINDOW_start)
+                    end_date = self.config.get('end_date', min(yesterday, sync_date + datetime.timedelta(days=5)))
+                    sync_date_copy = sync_date
+                    while sync_date_copy <= end_date:
+                        sync_dates.add(sync_date_copy)
+                        sync_date_copy += datetime.timedelta(days=1)
+                    sync_dates.add(WINDOW_start)
+                else:
+                    sync_dates = set([max(datetime.date.today() - datetime.timedelta(days=i), WINDOW_start) for i in lookback] + [WINDOW_start])
 
                 if profile['country_code'] == "SG":
                     LOGGER.info('No sponsored display report avalible for marketplace SG -- moving on')
@@ -140,8 +151,7 @@ class BaseSponsoredDisplayReportStream(ReportStream):
 
                 self.set_profile(profile['profile_id'], profile['country_code'])
 
-                sync_date_copy = sync_date
-                while sync_date_copy <= end_date:
+                for sync_date_copy in sync_dates:
                     LOGGER.info("Syncing {} for date {}".format(table, sync_date_copy))
 
                     for tactic in tactics:
@@ -163,15 +173,13 @@ class BaseSponsoredDisplayReportStream(ReportStream):
                             self.state = incorporate(self.state, self.TABLE,
                                                 'last_record', sync_date_copy.isoformat(), profile['country_code'])
                             save_state(self.state)
-                    
-                    if sync_date_copy == end_date and end_date < datetime.date.today() - datetime.timedelta(days=30) :
+
+                    if sync_date_copy == max(sync_dates) and sync_date_copy < datetime.date.today() - datetime.timedelta(days=30):
                         self.state = incorporate(self.state, self.TABLE,
                                         'last_record', sync_date_copy.isoformat(), profile['country_code'])
                     save_state(self.state)
-            
-                    sync_date_copy += datetime.timedelta(days=1)
-                
-        return self.state    
+
+        return self.state
 
 # Advertised product report
 class SponsoredDisplayReportProductAdsStream(BaseSponsoredDisplayReportStream):
@@ -265,8 +273,8 @@ class SponsoredDisplayReportCampaignsStream(BaseSponsoredDisplayReportStream):
                 "attributedSales14dSameSKU",
                 "attributedSales30dSameSKU",
                 "attributedDetailPageView14d",
-                "attributedUnitsOrderedNewToBrand14d", 
-                "attributedOrdersNewToBrand14d", 
+                "attributedUnitsOrderedNewToBrand14d",
+                "attributedOrdersNewToBrand14d",
             ])
         }
 
@@ -313,8 +321,8 @@ class SponsoredDisplayReportAdGroupsStream(BaseSponsoredDisplayReportStream):
                 "attributedSales14dSameSKU",
                 "attributedSales30dSameSKU",
                 "attributedDetailPageView14d",
-                "attributedUnitsOrderedNewToBrand14d", 
-                "attributedOrdersNewToBrand14d", 
+                "attributedUnitsOrderedNewToBrand14d",
+                "attributedOrdersNewToBrand14d",
             ])
         }
 
@@ -332,42 +340,42 @@ class SponsoredDisplayReportTargetingStream(BaseSponsoredDisplayReportStream):
             "reportDate": day.strftime('%Y%m%d'),
             "tactic": tactic,
             "metrics": ",".join([
-                "adGroupId", 
-                "adGroupName", 
-                "campaignId", 
-                "campaignName", 
-                "clicks", 
-                "cost", 
-                "currency", 
-                "impressions", 
+                "adGroupId",
+                "adGroupName",
+                "campaignId",
+                "campaignName",
+                "clicks",
+                "cost",
+                "currency",
+                "impressions",
                 "targetId",
-                "targetingExpression", 
-                "targetingText", 
-                "targetingType", 
-                # "attributedConversions1d", 
-                # "attributedConversions7d", 
-                "attributedConversions14d", 
-                "attributedConversions30d", 
-                # "attributedConversions1dSameSKU", 
-                # "attributedConversions7dSameSKU", 
-                "attributedConversions14dSameSKU", 
-                "attributedConversions30dSameSKU", 
-                # "attributedSales1d", 
-                # "attributedSales7d", 
-                "attributedSales14d", 
-                "attributedSales30d", 
-                # "attributedSales1dSameSKU", 
-                # "attributedSales7dSameSKU", 
-                "attributedSales14dSameSKU", 
-                "attributedSales30dSameSKU", 
-                # "attributedUnitsOrdered1d", 
-                # "attributedUnitsOrdered7d", 
-                "attributedUnitsOrdered14d", 
-                "attributedUnitsOrdered30d", 
-                "attributedDetailPageView14d", 
-                "attributedSalesNewToBrand14d", 
-                "attributedOrdersNewToBrand14d", 
-                "attributedUnitsOrderedNewToBrand14d", 
+                "targetingExpression",
+                "targetingText",
+                "targetingType",
+                # "attributedConversions1d",
+                # "attributedConversions7d",
+                "attributedConversions14d",
+                "attributedConversions30d",
+                # "attributedConversions1dSameSKU",
+                # "attributedConversions7dSameSKU",
+                "attributedConversions14dSameSKU",
+                "attributedConversions30dSameSKU",
+                # "attributedSales1d",
+                # "attributedSales7d",
+                "attributedSales14d",
+                "attributedSales30d",
+                # "attributedSales1dSameSKU",
+                # "attributedSales7dSameSKU",
+                "attributedSales14dSameSKU",
+                "attributedSales30dSameSKU",
+                # "attributedUnitsOrdered1d",
+                # "attributedUnitsOrdered7d",
+                "attributedUnitsOrdered14d",
+                "attributedUnitsOrdered30d",
+                "attributedDetailPageView14d",
+                "attributedSalesNewToBrand14d",
+                "attributedOrdersNewToBrand14d",
+                "attributedUnitsOrderedNewToBrand14d",
             ])
         }
 
@@ -385,21 +393,21 @@ class SponsoredDisplayReportAsinsStream(BaseSponsoredDisplayReportStream):
             "reportDate": day.strftime('%Y%m%d'),
             "tactic": tactic,
             "metrics": ",".join([
-                "campaignId", 
-                "campaignName", 
-                "adGroupId", 
-                "adGroupName", 
-                "currency", 
-                "asin", 
-                "otherAsin", 
-                "sku", 
-                "attributedSales14dOtherSKU", 
-                # "attributedSales1dOtherSKU", 
-                "attributedSales30dOtherSKU", 
-                # "attributedSales7dOtherSKU", 
-                "attributedUnitsOrdered14dOtherSKU", 
-                # "attributedUnitsOrdered1dOtherSKU", 
-                "attributedUnitsOrdered30dOtherSKU", 
-                # "attributedUnitsOrdered7dOtherSKU", 
+                "campaignId",
+                "campaignName",
+                "adGroupId",
+                "adGroupName",
+                "currency",
+                "asin",
+                "otherAsin",
+                "sku",
+                "attributedSales14dOtherSKU",
+                # "attributedSales1dOtherSKU",
+                "attributedSales30dOtherSKU",
+                # "attributedSales7dOtherSKU",
+                "attributedUnitsOrdered14dOtherSKU",
+                # "attributedUnitsOrdered1dOtherSKU",
+                "attributedUnitsOrdered30dOtherSKU",
+                # "attributedUnitsOrdered7dOtherSKU",
             ])
         }

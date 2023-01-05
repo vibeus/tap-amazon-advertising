@@ -1,4 +1,4 @@
-from tap_amazon_advertising.streams.base import ReportStream
+from tap_amazon_advertising.streams.base import ReportStream, BaseStream
 
 # import singer
 import json
@@ -25,7 +25,7 @@ BASE_URL = {
     'EU': 'https://advertising-api-eu.amazon.com',
     'FE': 'https://advertising-api-fe.amazon.com'
 }
-class BaseSponsoredProductsReportStream(ReportStream):
+class BaseSponsoredProductsReportV3Stream(BaseStream):
     API_METHOD = 'GET'
 
     @property
@@ -83,7 +83,7 @@ class BaseSponsoredProductsReportStream(ReportStream):
         ]
 
 # Advertised product report
-class SponsoredProductsReportProductAdsStream(BaseSponsoredProductsReportStream):
+class SponsoredProductsReportProductAdsStream(BaseSponsoredProductsReportV3Stream):
     TABLE = 'sponsored_products_report_product_ads'
     KEY_PROPERTIES = ['adId', 'day', 'profileId']
 
@@ -129,7 +129,7 @@ class SponsoredProductsReportProductAdsStream(BaseSponsoredProductsReportStream)
         }
 
 # Campaign report / Placement report
-class SponsoredProductsReportCampaignsStream(BaseSponsoredProductsReportStream):
+class SponsoredProductsReportCampaignsStream(BaseSponsoredProductsReportV3Stream):
     TABLE = 'sponsored_products_report_campaigns'
     KEY_PROPERTIES = ['campaignId', 'day', 'profileId', "placement"]
 
@@ -176,7 +176,7 @@ class SponsoredProductsReportCampaignsStream(BaseSponsoredProductsReportStream):
         }
 
 # get performance data at the ad group level by creating an adGroups report
-class SponsoredProductsReportAdGroupsStream(BaseSponsoredProductsReportStream):
+class SponsoredProductsReportAdGroupsStream(BaseSponsoredProductsReportV3Stream):
     TABLE = 'sponsored_products_report_ad_groups'
     KEY_PROPERTIES = ['adGroupId', 'day', 'profileId']
 
@@ -219,7 +219,7 @@ class SponsoredProductsReportAdGroupsStream(BaseSponsoredProductsReportStream):
         }
 
 # Search term report
-class SponsoredProductsReportKeywordsStream(BaseSponsoredProductsReportStream):
+class SponsoredProductsReportKeywordsStream(BaseSponsoredProductsReportV3Stream):
     TABLE = 'sponsored_products_report_keywords'
     KEY_PROPERTIES = ['keywordId', 'day', 'profileId', "query"]
 
@@ -267,7 +267,7 @@ class SponsoredProductsReportKeywordsStream(BaseSponsoredProductsReportStream):
         }
 
 # Targeting report
-class SponsoredProductsReportTargetingStream(BaseSponsoredProductsReportStream):
+class SponsoredProductsReportTargetingStream(BaseSponsoredProductsReportV3Stream):
     TABLE = 'sponsored_products_report_targeting'
     KEY_PROPERTIES = ['targetId', 'day', 'profileId', "query"]
 
@@ -319,7 +319,7 @@ class SponsoredProductsReportTargetingStream(BaseSponsoredProductsReportStream):
 # Purchased product report:
 # To get the full set of purchased products,
 # send both request one with targetId and one with keywordId in the metric list.
-class SponsoredProductsReportAsinsStream(BaseSponsoredProductsReportStream):
+class SponsoredProductsReportAsinsStream(BaseSponsoredProductsReportV3Stream):
     TABLE = 'sponsored_products_report_asins'
     KEY_PROPERTIES = ['campaignId', 'day', 'profileId']
 
@@ -443,11 +443,12 @@ class SponsoredProductsReportAsinsStream(BaseSponsoredProductsReportStream):
                                                     'last_record', sync_date_copy.isoformat(), profile['country_code'])
                             save_state(self.state)
 
-                    if sync_date_copy == max(sync_dates) and sync_date_copy < datetime.date.today() - datetime.timedelta(days=30):
+                    if sync_date_copy == end_date and end_date < datetime.date.today() - datetime.timedelta(days=30) :
                         self.state = incorporate(self.state, self.TABLE,
                                         'last_record', sync_date_copy.isoformat(), profile['country_code'])
                     save_state(self.state)
 
+                    # sync_date_copy += datetime.timedelta(days=1)
                 time.sleep(30)
 
         return self.state

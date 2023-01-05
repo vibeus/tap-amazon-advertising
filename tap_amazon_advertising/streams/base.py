@@ -159,6 +159,8 @@ class ReportStream(BaseStream):
 
         yesterday = datetime.date.today() - datetime.timedelta(days=1)
         WINDOW_start = datetime.date.today() - datetime.timedelta(days=60)
+        lookback = self.config.get('lookback', [1, 7, 14, 30])
+        sync_dates = set()
 
         with singer.metrics.record_counter(endpoint=table) as counter:
             for profile in self.config.get('profiles'):
@@ -168,15 +170,23 @@ class ReportStream(BaseStream):
 
                 # Add a lookback to refresh attribution metrics for more recent orders
                 # If the sync_date is over 60 days ago from today, use the date 60 days ago from today instead.
-                sync_date = max(sync_date - datetime.timedelta(days=self.config.get('lookback', 30)), WINDOW_start)
-                end_date = self.config.get('end_date', min(yesterday, sync_date + datetime.timedelta(days=5)))
+                if len(lookback) == 1:
+                    sync_date = max(sync_date - datetime.timedelta(days=lookback), WINDOW_start)
+                    end_date = self.config.get('end_date', min(yesterday, sync_date + datetime.timedelta(days=5)))
+                    sync_date_copy = sync_date
+                    while sync_date_copy <= end_date:
+                        sync_dates.add(sync_date_copy)
+                        sync_date_copy += datetime.timedelta(days=1)
+                    sync_dates.add(WINDOW_start)
+                else:
+                    sync_dates = set([max(datetime.date.today() - datetime.timedelta(days=i), WINDOW_start) for i in lookback] + [WINDOW_start])
+
 
                 LOGGER.info('Syncing data for profile with country code {}'.format(profile['country_code']))
 
                 self.set_profile(profile['profile_id'], profile['country_code'])
 
-                sync_date_copy = sync_date
-                while sync_date_copy <= end_date:
+                for sync_date_copy in sync_dates:
                     LOGGER.info("Syncing {} for date {}".format(table, sync_date_copy))
 
                     url = self.get_url(self.api_path)
@@ -196,13 +206,11 @@ class ReportStream(BaseStream):
                         self.state = incorporate(self.state, self.TABLE,
                                                 'last_record', sync_date_copy.isoformat(), profile['country_code'])
                         save_state(self.state)
-                    
+
                     else:
-                        if sync_date_copy == end_date and end_date < datetime.date.today() - datetime.timedelta(days=30) :
+                        if sync_date_copy == max(sync_dates) and sync_date_copy < datetime.date.today() - datetime.timedelta(days=30):
                                 self.state = incorporate(self.state, self.TABLE,
                                                 'last_record', sync_date_copy.isoformat(), profile['country_code'])
                                 save_state(self.state)
-
-                    sync_date_copy += datetime.timedelta(days=1)
 
         return self.state

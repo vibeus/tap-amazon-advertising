@@ -66,7 +66,7 @@ class BaseAttributionReportStream(BaseStream):
         LOGGER.info('Syncing data for entity {}'.format(table))
 
         yesterday = datetime.date.today() - datetime.timedelta(days=1)
-        WINDOW_start = datetime.date.today() - datetime.timedelta(days=180)
+        WINDOW_start = datetime.date.today() - datetime.timedelta(days=365)
 
         with singer.metrics.record_counter(endpoint=table) as counter:
             for profile in self.config.get('profiles'):
