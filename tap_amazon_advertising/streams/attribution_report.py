@@ -38,11 +38,11 @@ class BaseAttributionReportStream(BaseStream):
 
     @property
     def api_path(self):
-        return '/attribution/report' 
+        return '/attribution/report'
 
     def get_body(self, day):
         return {
-            "reportType": "PERFORMANCE", 
+            "reportType": "PERFORMANCE",
             "endDate": "20220920",
             "count": 1000,
             "startDate": "20220901",
@@ -60,7 +60,7 @@ class BaseAttributionReportStream(BaseStream):
             self.transform_record(record)
             for record in result
         ]
-    
+
     def sync_data(self):
         table = self.TABLE
         LOGGER.info('Syncing data for entity {}'.format(table))
@@ -91,7 +91,7 @@ class BaseAttributionReportStream(BaseStream):
                 url = self.get_url(self.api_path)
                 body = self.get_body(start_date, yesterday)
                 reports = self.client.make_request(url, 'POST', body=body)
-                
+
                 data = self.get_stream_data(reports["reports"])
 
                 for obj in data:
@@ -104,7 +104,7 @@ class BaseAttributionReportStream(BaseStream):
                 self.state = incorporate(self.state, self.TABLE,
                                         'last_record', yesterday.isoformat(), profile['country_code'])
                 save_state(self.state)
-                    
+
         return self.state
 
 
@@ -119,7 +119,7 @@ class AttributionReportCampaignPerformanceStream(BaseAttributionReportStream):
 
     def get_body(self, start, end):
         return {
-            "reportType": self.recordType, 
+            "reportType": self.recordType,
             "endDate": end.strftime('%Y%m%d'),
             "count": 1000,
             "startDate": start.strftime('%Y%m%d'),

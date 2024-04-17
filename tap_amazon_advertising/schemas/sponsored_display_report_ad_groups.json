@@ -108,6 +108,30 @@
         },
         "attributedUnitsOrdered14d": {
             "type": ["null", "number"]
+        },
+        "viewAttributedConversions14d": {
+            "type": ["null", "number"]
+        },
+        "viewAttributedDetailPageView14d": {
+            "type": ["null", "number"]
+        },
+        "viewAttributedSales14d": {
+            "type": ["null", "number"]
+        },
+        "viewAttributedUnitsOrdered14d": {
+            "type": ["null", "number"]
+        },
+        "viewImpressions": {
+            "type": ["null", "number"]
+        },
+        "viewAttributedOrdersNewToBrand14d": {
+            "type": ["null", "number"]
+        },
+        "viewAttributedSalesNewToBrand14d": {
+            "type": ["null", "number"]
+        },
+        "viewAttributedUnitsOrderedNewToBrand14d": {
+            "type": ["null", "number"]
         }
     }
 }

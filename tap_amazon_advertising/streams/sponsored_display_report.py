@@ -275,6 +275,14 @@ class SponsoredDisplayReportCampaignsStream(BaseSponsoredDisplayReportStream):
                 "attributedDetailPageView14d",
                 "attributedUnitsOrderedNewToBrand14d",
                 "attributedOrdersNewToBrand14d",
+                "viewAttributedConversions14d",
+                "viewAttributedDetailPageView14d",
+                "viewAttributedSales14d",
+                "viewAttributedUnitsOrdered14d",
+                "viewImpressions",
+                "viewAttributedOrdersNewToBrand14d",
+                "viewAttributedSalesNewToBrand14d",
+                "viewAttributedUnitsOrderedNewToBrand14d",
             ])
         }
 
@@ -323,6 +331,14 @@ class SponsoredDisplayReportAdGroupsStream(BaseSponsoredDisplayReportStream):
                 "attributedDetailPageView14d",
                 "attributedUnitsOrderedNewToBrand14d",
                 "attributedOrdersNewToBrand14d",
+                "viewAttributedConversions14d",
+                "viewAttributedDetailPageView14d",
+                "viewAttributedSales14d",
+                "viewAttributedUnitsOrdered14d",
+                "viewImpressions",
+                "viewAttributedOrdersNewToBrand14d",
+                "viewAttributedSalesNewToBrand14d",
+                "viewAttributedUnitsOrderedNewToBrand14d",
             ])
         }
 
